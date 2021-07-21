@@ -1,0 +1,12 @@
+
+.idea/
+
+__pycache__/
+
+venv/
+
+config.py
+
+screenshot.jpg
+
+web_camera.jpg
