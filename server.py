@@ -1,33 +1,10 @@
 import vk_api.vk_api
-import pyautogui
-import requests
-import cv2
+from control_pc import *
 
 from config import my_vk_id
 
 from vk_api.bot_longpoll import VkBotLongPoll
 from vk_api.bot_longpoll import VkBotEventType
-
-
-def control_pc(text):
-    dictionary = {}
-    if text:
-        if text.lower().replace(' ', '') == 'сделайскриншот' or \
-                text.lower().replace(' ', '') == 'скрин':
-            screenshot = pyautogui.screenshot()
-            screenshot.save('screenshot.jpg')
-            dictionary['attachment'] = 'screenshot.jpg'
-            dictionary['type'] = 'screenshot'
-            dictionary['text'] = 'Скриншот'
-        elif text.lower().replace(' ', '') == 'вебка':
-            cap = cv2.VideoCapture(0)
-            ret, frame = cap.read()
-            cv2.imwrite('web_camera.jpg', frame)
-            dictionary['attachment'] = 'web_camera.jpg'
-            dictionary['type'] = 'web_camera'
-            dictionary['text'] = 'Захват фото с вебкамеры'
-
-    return dictionary
 
 
 class Server:

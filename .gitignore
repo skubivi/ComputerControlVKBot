@@ -10,3 +10,5 @@ config.py
 screenshot.jpg
 
 web_camera.jpg
+
+.cache
