@@ -27,6 +27,11 @@ def play_music(text):
             pyautogui.write(text)
         pyautogui.dragTo(880, 370, 0.5)
         pyautogui.click()
+    dictionary = {
+        'text': 'включил ' + text,
+        'type': 'text'
+    }
+    return dictionary
 
 
 def make_screenshot():
@@ -62,6 +67,6 @@ def control_pc(text):
                 text.lower().replace(' ', '') == 'вебкамера':
             dictionary = make_webcam_photo()
         elif text.lower()[0:7] == 'включи ':
-            play_music(text.lower()[7:])
+            dictionary = play_music(text.lower()[7:])
 
     return dictionary

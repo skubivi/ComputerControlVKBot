@@ -6,6 +6,9 @@ from config import my_vk_id
 from vk_api.bot_longpoll import VkBotLongPoll
 from vk_api.bot_longpoll import VkBotEventType
 
+from secondary_functions import save_file
+from secondary_functions import speech_to_text
+
 
 class Server:
 
@@ -45,6 +48,8 @@ class Server:
         if dictionary:
             if dictionary['type'] == 'screenshot' or dictionary['type'] == 'web_camera':
                 self.send_image(user_id, dictionary['attachment'], dictionary['text'])
+            else:
+                self.send_msg(user_id, dictionary['text'])
 
     def start(self):
         for event in self.long_poll.listen():
@@ -60,6 +65,9 @@ class Server:
                         if attach['type'] == 'audio_message':
                             print(attach)
                             self.send_msg(user_id, 'Голосовое сообщение')
-
+                            link = attach['audio_message']['link_ogg']
+                            save_file(link)
+                            text = speech_to_text()
+                            print(text)
                     dictionary = control_pc(text)
                     self.control_vk(dictionary, user_id)

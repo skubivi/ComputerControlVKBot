@@ -1,3 +1,11 @@
+import requests
+import urllib.request
+import json
+
+from config import yandex_iam_token
+from config import yandex_folder_id
+
+
 def check_language(text):
     asci = ord(text[0:1])
     if asci > 1000:
@@ -49,8 +57,33 @@ def translate(text):
     return new_text
 
 
+def save_file(link):
+    r = requests.get(link, allow_redirects=True)
+    open('audio.ogg', "wb").write(r.content)
+
+
+def speech_to_text():
+    with open("audio.ogg", "rb") as f:
+        data = f.read()
+
+    params = "&".join([
+        "topic=general",
+        "folderId=%s" % yandex_folder_id,
+        "lang=ru-RU"
+    ])
+
+    url = urllib.request.Request("https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?%s" % params, data=data)
+    url.add_header("Authorization", "Bearer %s" % yandex_iam_token)
+
+    response_data = urllib.request.urlopen(url).read().decode('UTF-8')
+    decoded_data = json.loads(response_data)
+
+    if decoded_data.get("error_code") is None:
+        return decoded_data.get("result")
+
+
 def test():
-    print(translate('ныф'))
+    speech_to_text()
 
 
 if __name__ == '__main__':
